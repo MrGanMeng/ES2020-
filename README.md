@@ -78,17 +78,32 @@ console.log(BigInt(num)); // 134n
 
 #### Promise.allSettled()
 
-Promise.allSettled()方法接受一组 Promise 实例作为参数，包装成一个新的 Promise 实例。只有等到所有这些参数实例都返回结果，不管是 fulfilled 还是 rejected，包装实例才会结束。该方法由 ES2020 引入。
+Promise.allSettled()方法接受一组 Promise 实例作为参数，包装成一个新的 Promise 实例。只有等到所有这些参数实例都返回结果，不管是 fulfilled 还是 rejected，包装实例才会结束。该方法由 ES2020 引入。这个新增的方法与 Promise.all()用法类似。
 
 ```jsx
+// Promise.allSetttled 用法
 const promise_1 = new Promise((resolves, reject) => setTimeout(resolves, 100));
 const promise_2 = new Promise((resolves, reject) => setTimeout(reject, 100));
 
+// 无论失败或者成功都会全部返回
 Promise.allSettled([promise_1, promise_2]).then((data) => console.log(data));
 // [
 //   Object { status: "fulfilled", value: undefined},
 //   Object { status: "rejected", reason: undefined}
 // ]
+
+// Promise.all 用法
+Promise.all([promise_1, promise_2]).then(
+    (res) => {
+      console.log(res); // 不会执行
+    },
+    (err) => {
+    // 只要有一个失败了，那就会打印第一个失败的内容
+      console.log(err); // undefined
+    },
+  );
+
+
+
 ```
 
-#### import()函数动态引入
